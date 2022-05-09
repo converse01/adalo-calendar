@@ -26,6 +26,13 @@
       "listControl": { "sort": false, "limit": false }
     },
     {
+      "name": "zapisiDate",
+      "displayName": "Zapisi for each date",
+      "role": "listItem",
+      "reference": "zapisi",
+      "type": "number"
+    },
+    {
       "name": "zapisiMarking",
       "displayName": "Zapisi for each date",
       "role": "listItem",
