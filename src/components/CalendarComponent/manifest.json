@@ -7,16 +7,30 @@
   "components": "./index.js",
   "props": [
     {
-      "name": "items",
+      "name": "workDays",
       "displayName": "Work days",
       "type": "list",
       "listControl": { "sort": false, "limit": false }
     },
     {
-      "name": "items2",
-      "displayName": "Orders",
+      "name": "dateMarking",
+      "displayName": "Date for each Marking",
+      "role": "listItem",
+      "reference": "workDays",
+      "type": "date"
+    },
+    {
+      "name": "zapisi",
+      "displayName": "Zapisi",
       "type": "list",
       "listControl": { "sort": false, "limit": false }
+    },
+    {
+      "name": "zapisiMarking",
+      "displayName": "Zapisi for each date",
+      "role": "listItem",
+      "reference": "zapisi",
+      "type": "number"
     },
     {
       "name": "language",
@@ -93,20 +107,6 @@
       }
     },
     {
-      "name": "eventStarttime",
-      "displayName": "Event Start",
-      "role": "listItem",
-      "reference": "items",
-      "type": "date"
-    },
-    {
-      "name": "eventEndtime",
-      "displayName": "Event End",
-      "role": "listItem",
-      "reference": "items",
-      "type": "date"
-    },
-    {
       "name": "markingStyle",
       "displayName": "Multi-Day Event Marking Style",
       "type": "text",
@@ -146,8 +146,18 @@
       }
     },
     {
-      "name": "onPressCalendar",
-      "displayName": "Click Actions",
+      "name": "onClickUnmarkingDay",
+      "displayName": "Action on clicking an unmarking day",
+      "type": "action",
+      "role": "listItem",
+      "reference": "items",
+      "enabled": {
+        "oneEventAction": "action"
+      }
+    },
+    {
+      "name": "onClickMarkingDay",
+      "displayName": "Action on clicking an marking day",
       "type": "action",
       "role": "listItem",
       "reference": "items",

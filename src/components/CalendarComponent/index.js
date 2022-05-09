@@ -108,12 +108,47 @@ class DynamicCalendar extends Component {
     }
   }
 
+  filterRespArr = (defaultArr, respArr) => {
+    let returnArr = []
+    defaultArr.forEach((item) => {
+      respArr.forEach((respItem) => {
+        if (item.id === respItem.id) {
+          returnArr.push(respItem)
+        }
+      })
+    })
+    return returnArr
+  }
+
+  matchWorkDaysWithZapisi = (filteredWorkDays, zapisi) => {
+    return filteredWorkDays.map((item) => {
+            let workDayZapisi = []
+            zapisi.forEach((zapisItem) => {
+              if (item.id == zapisItem.workDayId) {
+                workDayZapisi.push(zapisItem)
+              }
+            })
+            return {...item, zapisi: workDayZapisi}
+         })
+  }
+
+  workDaysToObject = (workDaysList) => {
+    let obj = {}
+    workDaysList.forEach((workDay) => {
+        let formatedDate = formatDate(new Date(workDay.dateMarking), false)
+        obj[formatedDate] = {
+          selected: true
+        }
+    })
+    return obj
+  }
+
   render() {
     const appStyle = { ...defaultStyle }
     // calendar
     let {
       items,
-      items2,
+      workDays,
       language,
       mondayBegin,
       colors,
@@ -124,7 +159,8 @@ class DynamicCalendar extends Component {
       openAccordion,
       _height,
     } = this.props
-    console.log(items)
+    const objDates = workDays ? this.workDaysToObject(workDays) : false
+    console.log(objDates)
     const timeFormat = items ? items[0]?.agenda.timeFormat || false : false
     const mondayBeginBool = mondayBegin === 'Sunday' ? 0 : 1
     LocaleConfig.defaultLocale = language
@@ -437,7 +473,8 @@ class DynamicCalendar extends Component {
             )}
             onPressArrowLeft={(subtractMonth) => subtractMonth()}
             onPressArrowRight={(addMonth) => addMonth()}
-            markedDates={calAgendaObject}
+            // markedDates={calAgendaObject}
+            markedDates={objDates}
             markingType={markingStyle}
           />
         </View>
