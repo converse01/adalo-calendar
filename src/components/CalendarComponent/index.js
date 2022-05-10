@@ -36,13 +36,11 @@ class DynamicCalendar extends Component {
     }
 
     let { oneEventAction } = this.props
-    console.log("ONE EVENT ACTION", oneEventAction)
     if (oneEventAction === 'action') {
       let {workDays} = this.props
 
       if (workDays !== undefined && workDays.length !== 0) {
         let workDay = workDays.find((dayWork) => this.splitDate(dayWork.dateMarking) === day.dateString)
-        console.log("workDay", workDay)
         if (!workDay) {
           let { onClickUnmarkingDay } = this.props
           const date = new Date(day.timestamp)
@@ -50,7 +48,6 @@ class DynamicCalendar extends Component {
         } else {
           let { onClickMarkingDay } = workDay
           if (onClickMarkingDay && typeof onClickMarkingDay === 'function') {
-            console.log("CLICK", onClickMarkingDay)
             onClickMarkingDay()
             this.setState({ calendarRender: true })
           }
@@ -140,11 +137,12 @@ class DynamicCalendar extends Component {
 
   // runs when user taps an event
   eventTapped = (event) => {
-    const { onPressEvent } = this.props.items[Number(event.id)].agenda
-    if (onPressEvent) {
-      onPressEvent()
-      setTimeout(() => this.setState({ calendarRender: true }), 1000)
-    }
+    // const { onPressEvent } = this.props.items[Number(event.id)].agenda
+    // if (onPressEvent) {
+    //   onPressEvent()
+    //   setTimeout(() => this.setState({ calendarRender: true }), 1000)
+    // }
+    console.log(event)
   }
 
   filterRespArr = (defaultArr, respArr) => {
@@ -182,14 +180,14 @@ class DynamicCalendar extends Component {
     workDaysList.forEach((workDay) => {
         const formatedDate = formatDate(new Date(workDay.dateMarking), false)
         let zapisi = []
-        if (zapisiList) {
+        if (zapisiList && zapisiList.length!==0 && workDaysList && workDaysList.length !== 0
+          && zapisiList[0].zapisiDate !== undefined) {
           zapisi = zapisiList
           .filter((zapis) => this.splitDate(zapis.zapisiDate) === this.splitDate(workDay.dateMarking))
           .map((obj) => {
             return {color: "white"}
           })
         }
-        console.log("zapisiFiltered", zapisi)
         obj[formatedDate] = {
           dots: zapisi,
           selected: true
@@ -224,9 +222,7 @@ class DynamicCalendar extends Component {
     // && zapisi !== undefined
 
     if (workDays !== undefined) {
-      console.log("NOT UNDEFINED")
       objDates = this.workDaysToObject(workDays, zapisi) 
-      console.log(objDates)
     }
 
     
@@ -498,7 +494,6 @@ class DynamicCalendar extends Component {
           const formattedStartDateWithTime = formatDate(new Date(startTime), true)
           const formattedEndDateWithTime = formatDate(new Date(endTime), true)
 
-          console.log("TIMES", formattedStartDateWithTime, formattedEndDateWithTime)
           this.pushAgendaEvents(
             this.state.agendaEvents,
             i,
@@ -510,8 +505,6 @@ class DynamicCalendar extends Component {
         }        
       }
     }
-
-    console.log("AGENDA LIST STATE", this.state.agendaEvents)
 
     if (!(editor && agendaRenderPass) && this.state.calendarRender) {
       return (
@@ -584,8 +577,6 @@ class DynamicCalendar extends Component {
         </View>
       )
     }
-
-    console.log("AGENDA EVENTS", this.state.agendaEvents)
 
     return (
       <View style={{ flex: 1, marginTop: 20 }}>
