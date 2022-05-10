@@ -28,27 +28,52 @@ class DynamicCalendar extends Component {
 
   // runs when user clicks calendar day
   onDayPress = (day) => {
-    this.setState({ chosenDay: day.dateString })
-    let { oneEventAction } = this.props
-    if (
-      oneEventAction === 'action' &&
-      this.state.datesHash.get(day.dateString) === 1
-    ) {
-      this.setState({ goBackTrigger: true })
-      let passDate = new Date(day.dateString)
-      passDate.setDate(passDate.getDate() + 1)
-      let event = this.state.agendaEvents.filter((event) =>
-        event.start.includes(day.dateString)
-      )[0]
-      let id = event ? event.id : null
-      if (!id && id !== 0) return
-      let { onPressCalendar } = this.props.items[Number(id)]
-      if (onPressCalendar && typeof onPressCalendar === 'function') {
-        onPressCalendar()
+
+    let {workDays} = this.props
+
+    if (workDays !== undefined && workDays.length !== 0) {
+      let workDay = workDays.find((dayWork) => this.splitDate(dayWork.dateMarking) === day.dateString)
+      console.log("workDay", workDay)
+      if (!workDay) {
+        let { onClickUnmarkingDay } = this.props
+        const date = new Date(day.timestamp)
+        onClickUnmarkingDay(date)
+      } else {
+        let { onClickMarkingDay } = workDay
+        if (onClickMarkingDay && typeof onClickMarkingDay === 'function') {
+          console.log("CLICK", onClickMarkingDay)
+          onClickMarkingDay()
+          this.setState({ calendarRender: true })
+        }
       }
-    } else {
-      this.setState({ calendarRender: !this.state.calendarRender })
+      
     }
+
+    // ,
+    //   "role": "listItem",
+    //   "reference": "workDays"
+
+    // this.setState({ chosenDay: day.dateString })
+    // let { oneEventAction } = this.props
+    // if (
+    //   oneEventAction === 'action' &&
+    //   this.state.datesHash.get(day.dateString) === 1
+    // ) {
+    //   this.setState({ goBackTrigger: true })
+    //   let passDate = new Date(day.dateString)
+    //   passDate.setDate(passDate.getDate() + 1)
+    //   let event = this.state.agendaEvents.filter((event) =>
+    //     event.start.includes(day.dateString)
+    //   )[0]
+    //   let id = event ? event.id : null
+    //   if (!id && id !== 0) return
+    //   let { onPressCalendar } = this.props.items[Number(id)]
+    //   if (onPressCalendar && typeof onPressCalendar === 'function') {
+    //     onPressCalendar()
+    //   }
+    // } else {
+    //   this.setState({ calendarRender: !this.state.calendarRender })
+    // }
   }
 
   // runs when user clicks back button on agenda
@@ -132,12 +157,22 @@ class DynamicCalendar extends Component {
          })
   }
 
+  splitDate = (date) => {
+    let dateF = date.split('T')[0]
+    return dateF
+  }
+
   workDaysToObject = (workDaysList, zapisiList) => {
     let obj = {}
 
     workDaysList.forEach((workDay) => {
         const formatedDate = formatDate(new Date(workDay.dateMarking), false)
-        const zapisi = zapisiList.filter((zapis) => new Date(zapis.zapisiDate) === new Date(workDay.dateMarking))
+        const zapisi = zapisiList
+          .filter((zapis) => this.splitDate(zapis.zapisiDate) === this.splitDate(workDay.dateMarking))
+          .map((obj) => {
+            return {color: "white"}
+          })
+        console.log("zapisiFiltered", zapisi)
         obj[formatedDate] = {
           dots: zapisi,
           selected: true
@@ -163,11 +198,16 @@ class DynamicCalendar extends Component {
       openAccordion,
       _height,
     } = this.props
-    
+
     let objDates = {}
-    if (workDays && zapisi) {
+
+    console.log("workDays", workDays)
+    console.log("zapisi", zapisi)
+
+    if (workDays !== undefined && zapisi !== undefined) {
+      console.log("NOT UNDEFINED")
       objDates = this.workDaysToObject(workDays, zapisi) 
-        console.log(objDates)
+      console.log(objDates)
     }
 
     

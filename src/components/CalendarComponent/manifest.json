@@ -27,14 +27,14 @@
     },
     {
       "name": "zapisiDate",
-      "displayName": "Zapisi for each date",
+      "displayName": "Zapisi date",
       "role": "listItem",
       "reference": "zapisi",
-      "type": "number"
+      "type": "date"
     },
     {
       "name": "zapisiMarking",
-      "displayName": "Zapisi for each date",
+      "displayName": "Zapisi max number",
       "role": "listItem",
       "reference": "zapisi",
       "type": "number"
@@ -156,21 +156,19 @@
       "name": "onClickUnmarkingDay",
       "displayName": "Action on clicking an unmarking day",
       "type": "action",
-      "role": "listItem",
-      "reference": "items",
-      "enabled": {
-        "oneEventAction": "action"
-      }
+      "arguments": [
+        {
+          "type": "date",
+          "displayName": "Date from Calendar"
+        }
+      ]
     },
     {
       "name": "onClickMarkingDay",
       "displayName": "Action on clicking an marking day",
       "type": "action",
       "role": "listItem",
-      "reference": "items",
-      "enabled": {
-        "oneEventAction": "action"
-      }
+      "reference": "workDays"
     }
   ],
   "childComponents": [
