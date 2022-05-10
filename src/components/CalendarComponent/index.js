@@ -167,11 +167,14 @@ class DynamicCalendar extends Component {
 
     workDaysList.forEach((workDay) => {
         const formatedDate = formatDate(new Date(workDay.dateMarking), false)
-        const zapisi = zapisiList
+        let zapisi = []
+        if (zapisiList) {
+          zapisi = zapisiList
           .filter((zapis) => this.splitDate(zapis.zapisiDate) === this.splitDate(workDay.dateMarking))
           .map((obj) => {
             return {color: "white"}
           })
+        }
         console.log("zapisiFiltered", zapisi)
         obj[formatedDate] = {
           dots: zapisi,
@@ -204,7 +207,9 @@ class DynamicCalendar extends Component {
     console.log("workDays", workDays)
     console.log("zapisi", zapisi)
 
-    if (workDays !== undefined && zapisi !== undefined) {
+    // && zapisi !== undefined
+
+    if (workDays !== undefined) {
       console.log("NOT UNDEFINED")
       objDates = this.workDaysToObject(workDays, zapisi) 
       console.log(objDates)
