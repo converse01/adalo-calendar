@@ -33,6 +33,20 @@
       "type": "date"
     },
     {
+      "name": "zapisStartTime",
+      "displayName": "Zapis start time",
+      "role": "listItem",
+      "reference": "zapisi",
+      "type": "date"
+    },
+    {
+      "name": "zapisEndTime",
+      "displayName": "Zapis end time",
+      "role": "listItem",
+      "reference": "zapisi",
+      "type": "date"
+    },
+    {
       "name": "zapisiMarking",
       "displayName": "Zapisi max number",
       "role": "listItem",
@@ -142,7 +156,7 @@
         "type": "menu",
         "options": [
           {
-            "label": "Run an Action",
+            "label": "Run Actions",
             "value": "action"
           },
           {

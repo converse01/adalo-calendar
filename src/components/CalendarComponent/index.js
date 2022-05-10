@@ -29,25 +29,39 @@ class DynamicCalendar extends Component {
   // runs when user clicks calendar day
   onDayPress = (day) => {
 
-    let {workDays} = this.props
+    const dateNow = moment().format('YYYY-MM-DD')
 
-    if (workDays !== undefined && workDays.length !== 0) {
-      let workDay = workDays.find((dayWork) => this.splitDate(dayWork.dateMarking) === day.dateString)
-      console.log("workDay", workDay)
-      if (!workDay) {
-        let { onClickUnmarkingDay } = this.props
-        const date = new Date(day.timestamp)
-        onClickUnmarkingDay(date)
-      } else {
-        let { onClickMarkingDay } = workDay
-        if (onClickMarkingDay && typeof onClickMarkingDay === 'function') {
-          console.log("CLICK", onClickMarkingDay)
-          onClickMarkingDay()
-          this.setState({ calendarRender: true })
-        }
-      }
-      
+    if (day.dateString < dateNow) {
+      return
     }
+
+    let { oneEventAction } = this.props
+    console.log("ONE EVENT ACTION", oneEventAction)
+    if (oneEventAction === 'action') {
+      let {workDays} = this.props
+
+      if (workDays !== undefined && workDays.length !== 0) {
+        let workDay = workDays.find((dayWork) => this.splitDate(dayWork.dateMarking) === day.dateString)
+        console.log("workDay", workDay)
+        if (!workDay) {
+          let { onClickUnmarkingDay } = this.props
+          const date = new Date(day.timestamp)
+          onClickUnmarkingDay(date)
+        } else {
+          let { onClickMarkingDay } = workDay
+          if (onClickMarkingDay && typeof onClickMarkingDay === 'function') {
+            console.log("CLICK", onClickMarkingDay)
+            onClickMarkingDay()
+            this.setState({ calendarRender: true })
+          }
+        }
+        
+      }
+    } else {
+      this.setState({ calendarRender: false, chosenDay: day.dateString })
+    }
+
+    
 
     // ,
     //   "role": "listItem",
@@ -302,7 +316,7 @@ class DynamicCalendar extends Component {
       }
     })
     // agenda
-    let eventBgColorPass = '#ffffff'
+    let eventBgColorPass = "red" //'#ffffff'
     let eventTextColorPass = '#000000'
     let agendaRenderPass = false
     this.state.agendaEvents = []
@@ -464,6 +478,41 @@ class DynamicCalendar extends Component {
       }
     }
 
+    // pushAgendaEvents = (agendaEvents, i, start, end, title, subtitle) => {
+    //   agendaEvents.push({
+    //     id: i,
+    //     start: start,
+    //     end: end,
+    //     title: title,
+    //     summary: subtitle,
+    //   })
+    // }
+
+    if (zapisi) {
+      for (let i = 0; i < zapisi.length; i++) {
+
+        const startTime = zapisi[i].zapisStartTime
+        const endTime = zapisi[i].zapisEndTime
+
+        if (startTime && endTime) {
+          const formattedStartDateWithTime = formatDate(new Date(startTime), true)
+          const formattedEndDateWithTime = formatDate(new Date(endTime), true)
+
+          console.log("TIMES", formattedStartDateWithTime, formattedEndDateWithTime)
+          this.pushAgendaEvents(
+            this.state.agendaEvents,
+            i,
+            formattedStartDateWithTime,
+            formattedEndDateWithTime,
+            "Zapis " + i,
+            "Subtitle " + i
+          )
+        }        
+      }
+    }
+
+    console.log("AGENDA LIST STATE", this.state.agendaEvents)
+
     if (!(editor && agendaRenderPass) && this.state.calendarRender) {
       return (
         <View style={{ flex: 1, marginTop: 20 }}>
@@ -535,6 +584,8 @@ class DynamicCalendar extends Component {
         </View>
       )
     }
+
+    console.log("AGENDA EVENTS", this.state.agendaEvents)
 
     return (
       <View style={{ flex: 1, marginTop: 20 }}>
