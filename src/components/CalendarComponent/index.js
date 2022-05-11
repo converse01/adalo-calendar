@@ -30,6 +30,7 @@ class DynamicCalendar extends Component {
   onDayPress = (day) => {
 
     const dateNow = moment().format('YYYY-MM-DD')
+    this.setState({ chosenDay: dateNow })
 
     if (day.dateString < dateNow) {
       return
@@ -175,8 +176,9 @@ class DynamicCalendar extends Component {
   }
 
   workDaysToObject = (workDaysList, zapisiList) => {
-    let { dotsColor, workDayColor } = this.props.colors
+    let { dotsColor, workDayColor, currentDateColor } = this.props.colors
     let obj = {}
+    let chosenDayColor = currentDateColor
 
     workDaysList.forEach((workDay) => {
         const formatedDate = formatDate(new Date(workDay.dateMarking), false)
@@ -189,12 +191,43 @@ class DynamicCalendar extends Component {
             return {color: dotsColor}
           })
         }
+
         obj[formatedDate] = {
           dots: zapisi,
           selected: true,
           selectedColor: workDayColor
         }
+
+        if (this.state.chosenDay === formatedDate) {
+          obj[formatedDate] = {
+            dots: zapisi,
+            selected: true,
+            selectedColor: chosenDayColor
+          }
+        }
     })
+
+    const isChoosenDayInArray = workDaysList.find((workDay) => {
+      const formatedDate = formatDate(new Date(workDay.dateMarking), false)
+      return formatedDate === this.state.chosenDay
+    })
+
+    if (!isChoosenDayInArray) {
+      const chooseDay = this.state.chosenDay
+      const chooseDayObj = {
+        [chooseDay]: {
+          dots: [],
+          selected: true,
+          selectedColor: chosenDayColor
+        }
+      }
+      return {...obj, ...chooseDayObj}
+    } else {
+      return obj
+    }
+
+    console.log("IS CHOOSEN DAY", isChoosenDayInArray)
+
     return obj
   }
 
