@@ -191,20 +191,20 @@
       "displayName": "Colors",
       "props": [
         {
-          "name": "activeColor",
-          "displayName": "Active Color",
+          "name": "workDayColor",
+          "displayName": "Work Day Color",
           "type": "color",
           "default": "@primary"
         },
         {
-          "name": "textColor",
-          "displayName": "Text Color",
+          "name": "dotsColor",
+          "displayName": "Dots Color",
           "type": "color",
           "default": "#424242"
         },
         {
-          "name": "disabledColor",
-          "displayName": "Disabled Text Color",
+          "name": "currentDateColor",
+          "displayName": "Current Date Color",
           "type": "color",
           "default": "#CCCCCC"
         },

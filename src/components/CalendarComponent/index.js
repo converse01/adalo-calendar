@@ -175,6 +175,7 @@ class DynamicCalendar extends Component {
   }
 
   workDaysToObject = (workDaysList, zapisiList) => {
+    let { dotsColor, workDayColor } = this.props.colors
     let obj = {}
 
     workDaysList.forEach((workDay) => {
@@ -185,12 +186,13 @@ class DynamicCalendar extends Component {
           zapisi = zapisiList
           .filter((zapis) => this.splitDate(zapis.zapisiDate) === this.splitDate(workDay.dateMarking))
           .map((obj) => {
-            return {color: "white"}
+            return {color: dotsColor}
           })
         }
         obj[formatedDate] = {
           dots: zapisi,
-          selected: true
+          selected: true,
+          selectedColor: workDayColor
         }
     })
     return obj
@@ -512,9 +514,10 @@ class DynamicCalendar extends Component {
           <Calendar
             key={`${activeColor}${textColor}${disabledColor}${bgColor}${headingTextColor}${_height}`}
             theme={{
+              currentDateColor: "red",
               calendarBackground: bgColor,
               textSectionTitleColor: textColor,
-              // selectedDayBackgroundColor: bgColor,
+              selectedDayBackgroundColor: colors.currentDateColor,
               // selectedDayTextColor: activeColor,
               todayTextColor: textColor,
               dayTextColor: textColor,
