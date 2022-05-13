@@ -29,14 +29,21 @@ class DynamicCalendar extends Component {
   // runs when user clicks calendar day
   onDayPress = (day) => {
 
+    let { oneEventAction, markDay } = this.props
+    
     const dateNow = moment().format('YYYY-MM-DD')
-    this.setState({ chosenDay: dateNow })
 
     if (day.dateString < dateNow) {
       return
     }
 
-    let { oneEventAction } = this.props
+    if (markDay) {
+      this.setState({ chosenDay: day.dateString })
+    } else {
+      this.setState({ chosenDay: dateNow })
+    }
+
+    
     if (oneEventAction === 'action') {
       let {workDays} = this.props
 

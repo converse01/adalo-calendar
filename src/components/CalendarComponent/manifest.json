@@ -167,6 +167,12 @@
       }
     },
     {
+      "name": "markDay",
+      "displayName": "Need to mark a day",
+      "type": "boolean",
+      "default": false
+    },
+    {
       "name": "onClickUnmarkingDay",
       "displayName": "Action on clicking an unmarking day",
       "type": "action",
