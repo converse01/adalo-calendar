@@ -56,7 +56,7 @@ class DynamicCalendar extends Component {
         
       }
     } else {
-      this.setState({ calendarRender: false, chosenDay: day.dateString })
+      this.setState({ chosenDay: day.dateString })
     }
 
     
@@ -258,6 +258,7 @@ class DynamicCalendar extends Component {
 
     if (workDays !== undefined) {
       objDates = this.workDaysToObject(workDays, zapisi) 
+      console.log("OBJDATES", objDates)
     }
 
     
