@@ -11,23 +11,23 @@
     "publish": "adalo publish"
   },
   "devDependencies": {
-    "@adalo/cli": "^0.0.54",
-    "react": "^16.14.0",
-    "react-art": "^16.13.1",
-    "react-dom": "^16.14.0",
-    "react-native-svg": "^12.1.0",
-    "react-native-web": "^0.9.13"
+    "@adalo/cli": "^0.0.55",
+    "react": "^18.1.0",
+    "react-art": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-native-svg": "^12.3.0",
+    "react-native-web": "^0.17.7"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.30",
-    "@fortawesome/free-solid-svg-icons": "^5.14.0",
-    "@fortawesome/react-native-fontawesome": "^0.2.5",
-    "moment": "^2.26.0",
-    "react-native-calendar-events": "^1.7.3",
-    "react-native-calendar-strip": "^2.0.1",
-    "react-native-calendars": "1.1260.0",
+    "@fortawesome/fontawesome-svg-core": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/react-native-fontawesome": "^0.2.7",
+    "moment": "^2.29.3",
+    "react-native-calendar-events": "^2.2.0",
+    "react-native-calendar-strip": "^2.2.6",
+    "react-native-calendars": "1.1259.0",
     "react-native-event-calendar-customized": "^1.0.19",
     "react-native-events-calendar": "git+https://github.com/joshjhargreaves/react-native-event-calendar.git",
-    "react-native-vector-icons": "^7.0.0"
+    "react-native-vector-icons": "^9.1.0"
   }
 }
